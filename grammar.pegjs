@@ -1,5 +1,10 @@
 start
-  = 
+  = codigo:[primario]*{
+    return{
+      type: "CODIGO",
+      value: codigo
+    }
+  }
 
 primario 
   = decl:delcaracion{
