@@ -65,26 +65,30 @@ instruccion
       value: decl
     }
   }
-  / sent:sentencia{
+  / sent:sentencia {
     return {
       type: "INSTRUCCION",
       value: sent
     }
+  }
   / buc:bucle{
     return {
       type: "INSTRUCCION",
       value: buc
     }
+  }
   / asig:asignacion{
     return {
       type: "INSTRUCCION",
       value: asig
     }
+  }
   / llam:llamada{
     return {
       type: "INSTRUCCION",
       value: llam
     }
+  }
 
 expression
   = left:term oper:ADDOP right:expression{
@@ -142,15 +146,16 @@ condicion
 
 sentencia
   = if:IF lp:LEFTPAR cond:condicion rp:RIGHTPAR lb:LEFTBRACE (instruccion)* rb:RIGHTBRACE elseterm:(else:ELSE LEFTBRACE (instruccion)* RIGHTBRACE)? {
-  return {
-    type: "SENTENCIA",
-    leftp: lp,
-    condicion: cond,
-    rightp: rp,
-    leftb: lb,
-    instruccion: inst,
-    rightb: rb,
-    elseterm: elseterm
+    return {
+      type: "SENTENCIA",
+      leftp: lp,
+      condicion: cond,
+      rightp: rp,
+      leftb: lb,
+      instruccion: inst,
+      rightb: rb,
+      elseterm: elseterm
+    }
   }
 
 bucle
@@ -177,7 +182,7 @@ llamada
         rp: rp
       }
     }
-  }
+  
   
 parametro
   = exp:expression {

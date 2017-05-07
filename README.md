@@ -17,8 +17,8 @@ Esta es la gramática:
     3.  Producciones:
         1.  primario → (declaracion | (llamada | asignacion))* //Esto es lo que puede haber en global
         2.  declaracion → 'VAR' asignacion 
-        3.  asignacion → ID '=' ((funcion | expression) | asignacion) ;
-        4.  funcion → 'FUNCTION' '(' (atributo)* ')' '{' (instruccion)* '}' ;
+        3.  asignacion → ID '=' ((funcion | expression) | asignacion) ';'
+        4.  funcion → 'FUNCTION' '(' (atributo)* ')' '{' (instruccion)* '}' ';'
         5.  instruccion → ((declaracion | sentencia | bucle | llamada | asignacion) ;)*
         6.  expression → term ( ADDOP term)* 
         7.  term → factor (MULOP factor)*
