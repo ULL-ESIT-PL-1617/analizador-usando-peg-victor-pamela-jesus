@@ -35,21 +35,21 @@ declaracion
   }
 
 asignacion
-  = id:ID ASSIGN func:funcion SEMIC {
+  = id:$ID ASSIGN func:funcion SEMIC {
     return {
       type: "ASIGNACION",
       id: id,
       value: func
     }
   }
-  / id:ID ASSIGN expr:expression SEMIC {
+  / id:$ID ASSIGN expr:expression SEMIC {
     return {
       type: "ASIGNACION",
       id: id,
       value: expr
     }
   }
-  / id:ID ASSIGN asig:asignacion SEMIC {
+  / id:$ID ASSIGN asig:asignacion SEMIC {
     return {
       type: "ASIGNACION",
       id: id,
