@@ -90,7 +90,10 @@ expression
     }
   }
   / left:term{
-    return left;
+    return{
+      type: "EXPRESION",
+      value: left
+    }
   }
 
 term
@@ -102,7 +105,10 @@ term
     }
   }
   / left:factor{
-    return left;
+    return{
+      type: "TERM",
+      value: left
+    }
   }
 
 factor
