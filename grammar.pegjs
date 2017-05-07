@@ -141,7 +141,17 @@ condicion
   }
 
 sentencia
-  =
+  = if:IF lp:LEFTPAR cond:condicion rp:RIGHTPAR lb:LEFTBRACE (instruccion)* rb:RIGHTBRACE elseterm:(else:ELSE LEFTBRACE (instruccion)* RIGHTBRACE)? {
+  return {
+    type: "SENTENCIA",
+    leftp: lp,
+    condicion: cond,
+    rightp: rp,
+    leftb: lb,
+    instruccion: inst,
+    rightb: rb,
+    elseterm: elseterm
+  }
 
 bucle
   = WHILE lp:$LEFTPAR cond:condicion rp:$RIGHTPAR lb:$LEFTBRACE inst:instruccion rb:$RIGHTBRACE s:$SEMIC {
@@ -160,15 +170,14 @@ bucle
 llamada
   = id:$ID lp:$LEFTPAR params:(parametro)* rp:$RIGHTPAR {
       return {
-        { llamada: {
-            id: id,
-            lp: lp,
-            params: params,
-            rp: rp
-          }
-        }
+        type: "LLAMADA"
+        id: id,
+        lp: lp,
+        params: params,
+        rp: rp
       }
     }
+  }
   
 parametro
   = exp:expression {
@@ -189,7 +198,11 @@ integer "integer"
 
 _ = $[ \t\n\r]*
 
-FUNCTION = _"FUNCTION"_
+FUNCTION = _"function"_
+WHILE = _"while"_
+IF = _"if"_
+VAR = _"var"_
+ELSE = _"else"_
 ADDOP = PLUS / MINUS
 MULOP = MULT / DIV
 COMMA = _","_
@@ -201,7 +214,7 @@ LEFTPAR = _"("_
 RIGHTPAR = _")"_
 LEFTBRACE = _"{"_
 RIGHTBRACE = _"}"_
-SEMIC = _;_
+SEMIC = _";"_
 NUMBER = _ $[0-9]+ _
 ID = _ $([a-z_]i$([a-z0-9_]i*)) _
 ASSIGN = _ '=' _
