@@ -145,7 +145,7 @@ condicion
   }
 
 sentencia
-  = if:IF lp:LEFTPAR cond:condicion rp:RIGHTPAR lb:LEFTBRACE (instruccion)* rb:RIGHTBRACE elseterm:(else:ELSE LEFTBRACE (instruccion)* RIGHTBRACE)? {
+  = IF lp:LEFTPAR cond:condicion rp:RIGHTPAR lb:LEFTBRACE (instruccion)* rb:RIGHTBRACE elseterm:(ELSE LEFTBRACE (instruccion)* RIGHTBRACE)? {
     return {
       type: "SENTENCIA",
       leftp: lp,
