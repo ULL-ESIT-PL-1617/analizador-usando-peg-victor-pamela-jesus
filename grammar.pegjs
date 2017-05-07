@@ -5,7 +5,12 @@ primario
   = 
   
 declaracion
-  = 
+  = VAR asig:asignacion {
+    return {
+      type: "DECLARACION",
+      value: asig
+    }
+  }
 
 asignacion
   =
