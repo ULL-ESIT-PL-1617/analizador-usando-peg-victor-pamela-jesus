@@ -2,7 +2,24 @@ start
   = 
 
 primario 
-  = 
+  = decl:delcaracion{
+    return {
+      type: "PRIMARIO",
+      value: decl
+    }
+  }
+  / asig:asignacion{
+    return {
+      type: "PRIMARIO",
+      value: asig
+    }
+  }
+  / llam:llamada{
+    return {
+      type: "PRIMARIO",
+      value: llam
+    }
+  }
   
 declaracion
   = VAR asig:asignacion {
@@ -13,19 +30,80 @@ declaracion
   }
 
 asignacion
-  =
+  = ASSIGN func:funcion SEMIC{
+    return {
+      type: "ASIGNACION",
+      value: func
+    }
+  }
+  / ASSIGN expr:expression SEMIC{
+    return {
+      type: "ASIGNACION",
+      value: expr
+    }
+  }
   
 funcion
-  =
+  = FUNCTION LEFTPAR param:[parametro]* RIGHTPAR LEFTBRACE instr:[instruccion]*
+    RIGHTBRACE {
+      return{
+        type: "FUNCION",
+        parameters: param,
+        instructions: instr
+      }
+    }
   
 instruccion
-  =
+  = decl:declaracion{
+    return {
+      type: "INSTRUCCION",
+      value: decl
+    }
+  }
+  / sent:sentencia{
+    return {
+      type: "INSTRUCCION",
+      value: sent
+    }
+  / buc:bucle{
+    return {
+      type: "INSTRUCCION",
+      value: buc
+    }
+  / asig:asignacion{
+    return {
+      type: "INSTRUCCION",
+      value: asig
+    }
+  / llam:llamada{
+    return {
+      type: "INSTRUCCION",
+      value: llam
+    }
 
 expression
-  =
+  = left:term oper:ADDOP right:expression{
+    return{
+      type: oper,
+      leftT: left,
+      rightT: right
+    }
+  }
+  / left:term{
+    return left;
+  }
 
 term
-  =
+  = left:factor oper:MULOP right:term{
+    return{
+      type: oper,
+      leftT: left,
+      rightT: right
+    }
+  }
+  / left:factor{
+    return left;
+  }
 
 factor
   = lp:$LEFTPAR exp:expression rp:$RIGHTPAR {
@@ -34,7 +112,7 @@ factor
       value: expression
     }
   }
-  / = int:$integer {
+  / int:$integer {
       return {
         type: "FACTOR",
         value: int
@@ -90,6 +168,7 @@ integer "integer"
 
 _ = $[ \t\n\r]*
 
+FUNCTION = _"FUNCTION"_
 ADDOP = PLUS / MINUS
 MULOP = MULT / DIV
 COMMA = _","_
