@@ -1,7 +1,3 @@
-# Enlace al analizador
-
-[Analizador]()
-
 # Gramática
 
 ### Ejemplo de uso
