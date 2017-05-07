@@ -1,5 +1,5 @@
 start
-  = codigo:[primario]*{
+  = codigo:(primario)*{
     return{
       type: "CODIGO",
       value: codigo
@@ -49,7 +49,7 @@ asignacion
   }
   
 funcion
-  = FUNCTION LEFTPAR param:[parametro]* RIGHTPAR LEFTBRACE instr:[instruccion]*
+  = FUNCTION LEFTPAR param:(parametro)* RIGHTPAR LEFTBRACE instr:(instruccion)*
     RIGHTBRACE {
       return{
         type: "FUNCION",
@@ -59,34 +59,39 @@ funcion
     }
   
 instruccion
-  = decl:declaracion{
+  = decl:declaracion s:$SEMIC{
     return {
       type: "INSTRUCCION",
-      value: decl
+      value: decl,
+      semic: s
     }
   }
-  / sent:sentencia {
+  / sent:sentencia s:$SEMIC{
     return {
       type: "INSTRUCCION",
-      value: sent
+      value: sent,
+      semic: s
     }
   }
-  / buc:bucle{
+  / buc:bucle s:$SEMIC{
     return {
       type: "INSTRUCCION",
-      value: buc
+      value: buc,
+      semic: s
     }
   }
-  / asig:asignacion{
+  / asig:asignacion s:$SEMIC{
     return {
       type: "INSTRUCCION",
-      value: asig
+      value: asig,
+      semic: s
     }
   }
-  / llam:llamada{
+  / llam:llamada s:$SEMIC{
     return {
       type: "INSTRUCCION",
-      value: llam
+      value: llam,
+      semic: s
     }
   }
 
@@ -173,13 +178,14 @@ bucle
   }
   
 llamada
-  = id:$ID lp:$LEFTPAR params:(parametro)* rp:$RIGHTPAR {
+  = id:$ID lp:$LEFTPAR params:(parametro)* rp:$RIGHTPAR s:$SEMIC{
       return {
         type: "LLAMADA"
         id: id,
         lp: lp,
         params: params,
-        rp: rp
+        rp: rp,
+        semic: s
       }
     }
   
