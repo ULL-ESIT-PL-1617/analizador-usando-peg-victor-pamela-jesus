@@ -35,19 +35,28 @@ declaracion
   }
 
 asignacion
-  = ASSIGN func:funcion SEMIC{
+  = id:ID ASSIGN func:funcion SEMIC {
     return {
       type: "ASIGNACION",
+      id: id,
       value: func
     }
   }
-  / ASSIGN expr:expression SEMIC{
+  / id:ID ASSIGN expr:expression SEMIC {
     return {
       type: "ASIGNACION",
+      id: id,
       value: expr
     }
   }
-  
+  / id:ID ASSIGN asig:asignacion SEMIC {
+    return {
+      type: "ASIGNACION",
+      id: id,
+      value: asig
+    }
+  }
+    
 funcion
   = FUNCTION LEFTPAR param:(parametro)* RIGHTPAR LEFTBRACE instr:(instruccion)*
     RIGHTBRACE {
@@ -98,8 +107,9 @@ instruccion
 expression
   = left:term oper:ADDOP right:expression{
     return{
-      type: oper,
+      type: "EXPRESION",
       leftT: left,
+      op: oper,
       rightT: right
     }
   }
@@ -113,8 +123,9 @@ expression
 term
   = left:factor oper:MULOP right:term{
     return{
-      type: oper,
+      type: "TERM",
       leftT: left,
+      op: oper,
       rightT: right
     }
   }
@@ -150,7 +161,7 @@ condicion
   }
 
 sentencia
-  = IF lp:LEFTPAR cond:condicion rp:RIGHTPAR lb:LEFTBRACE (instruccion)* rb:RIGHTBRACE elseterm:(ELSE LEFTBRACE (instruccion)* RIGHTBRACE)? {
+  = IF lp:LEFTPAR cond:condicion rp:RIGHTPAR lb:LEFTBRACE (instruccion)* rb:RIGHTBRACE elseterm:(ELSE LEFTBRACE inst:(instruccion)* RIGHTBRACE)? {
     return {
       type: "SENTENCIA",
       leftp: lp,
@@ -180,7 +191,7 @@ bucle
 llamada
   = id:$ID lp:$LEFTPAR params:(parametro)* rp:$RIGHTPAR s:$SEMIC{
       return {
-        type: "LLAMADA"
+        type: "LLAMADA",
         id: id,
         lp: lp,
         params: params,
@@ -209,11 +220,11 @@ integer "integer"
 
 _ = $[ \t\n\r]*
 
-FUNCTION = _"function"_
-WHILE = _"while"_
-IF = _"if"_
-VAR = _"var"_
-ELSE = _"else"_
+FUNCTION = _"FUNCTION"_
+WHILE = _"WHILE"_
+IF = _"IF"_
+VAR = _"VAR"_
+ELSE = _"ELSE"_
 ADDOP = PLUS / MINUS
 MULOP = MULT / DIV
 COMMA = _","_
