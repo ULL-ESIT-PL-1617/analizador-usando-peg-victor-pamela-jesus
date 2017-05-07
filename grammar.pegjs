@@ -23,7 +23,18 @@ term
   =
 
 factor
-  =
+  = lp:$LEFTPAR exp:expression rp:$RIGHTPAR {
+    return {
+      type: "FACTOR",
+      value: expression
+    }
+  }
+  / = int:$integer {
+      return {
+        type: "FACTOR",
+        value: int
+      }
+  }
 
 condicion
   = left:parametro c:COMPARISONOPERATOR right:parametro {
