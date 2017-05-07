@@ -38,7 +38,18 @@ llamada
   =
   
 parametro
-  =
+  = exp:expression {
+    return {
+      type: "PARAMETRO",
+      value: exp
+    }
+  }
+  / id:$ID {
+      return {
+        type: "PARAMETRO",
+        value: id
+      }
+  }
 
 integer "integer"
   = NUMBER
