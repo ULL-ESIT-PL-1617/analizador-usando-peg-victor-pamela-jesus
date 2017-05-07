@@ -7,7 +7,7 @@ start
   }
 
 primario 
-  = decl:delcaracion{
+  = decl:declaracion{
     return {
       type: "PRIMARIO",
       value: decl
@@ -158,7 +158,17 @@ bucle
   }
   
 llamada
-  = 
+  = id:$ID lp:$LEFTPAR params:(parametro)* rp:$RIGHTPAR {
+      return {
+        { llamada: {
+            id: id,
+            lp: lp,
+            params: params,
+            rp: rp
+          }
+        }
+      }
+    }
   
 parametro
   = exp:expression {
