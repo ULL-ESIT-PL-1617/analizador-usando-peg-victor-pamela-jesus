@@ -49,7 +49,7 @@ asignacion
       value: expr
     }
   }
-  / id:$ID ASSIGN asig:asignacion SEMIC {
+  / id:$ID ASSIGN asig:asignacion {
     return {
       type: "ASIGNACION",
       id: id,
@@ -58,8 +58,7 @@ asignacion
   }
     
 funcion
-  = FUNCTION LEFTPAR param:(parametro)* RIGHTPAR LEFTBRACE instr:(instruccion)*
-    RIGHTBRACE {
+  = FUNCTION LEFTPAR param:(parametro)* RIGHTPAR LEFTBRACE instr:(instruccion)* RIGHTBRACE {
       return{
         type: "FUNCION",
         parameters: param,
@@ -86,7 +85,7 @@ instruccion
       value: buc,
     }
   }
-  / asig:asignacion SEMIC{
+  / asig:asignacion {
     return {
       type: "INSTRUCCION",
       value: asig,
@@ -156,7 +155,7 @@ condicion
   }
 
 sentencia
-  = IF LEFTPAR cond:condicion RIGHTPAR LEFTBRACE (instruccion)* RIGHTBRACE elseterm:(ELSE LEFTBRACE inst:(instruccion)* RIGHTBRACE)? {
+  = IF LEFTPAR cond:condicion RIGHTPAR LEFTBRACE inst:(instruccion)* RIGHTBRACE elseterm:(ELSE LEFTBRACE inst2:(instruccion)* RIGHTBRACE)? {
     return {
       type: "SENTENCIA",
       condicion: cond,
@@ -222,7 +221,7 @@ RIGHTBRACE = _"}"_
 SEMIC = _";"_
 NUMBER = _ $[0-9]+ _
 ID = _ $([a-z_]i$([a-z0-9_]i*)) _
-ASSIGN = _ '=' _
+ASSIGN = _'='_
 COMPARISONOPERATOR = MENOR / MENORQUE / MAYOR / MAYORQUE / IGUAL / DISTINTO
 MENOR = _"<"_ { return '<'; }
 MENORQUE = _"<="_ { return '<='; }
