@@ -26,6 +26,6 @@ Esta es la gramática:
         9.  condicion → parametro COMPARISONOPERATOR parametro
         10. sentencia → 'IF' (condicion) '{' instruccion '}' 
             ('ELSEIF' (condicion) '{' instruccion '}')* ('ELSE' '{' instruccion '}')? ;
-        11. bucle → 'WHILE' (condicion) '{' instruccion '}' ;
-        12. llamada → ID '(' (atributo)* ')' ;
+        11. bucle → 'WHILE' '(' condicion ')' '{' instruccion '}' ';'
+        12. llamada → ID '(' (parametro)* ')' ;
         13. parametro → expression | ID
