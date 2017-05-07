@@ -68,39 +68,34 @@ funcion
     }
   
 instruccion
-  = decl:declaracion s:$SEMIC{
+  = decl:declaracion SEMIC{
     return {
       type: "INSTRUCCION",
       value: decl,
-      semic: s
     }
   }
-  / sent:sentencia s:$SEMIC{
+  / sent:sentencia SEMIC{
     return {
       type: "INSTRUCCION",
       value: sent,
-      semic: s
     }
   }
-  / buc:bucle s:$SEMIC{
+  / buc:bucle SEMIC{
     return {
       type: "INSTRUCCION",
       value: buc,
-      semic: s
     }
   }
-  / asig:asignacion s:$SEMIC{
+  / asig:asignacion SEMIC{
     return {
       type: "INSTRUCCION",
       value: asig,
-      semic: s
     }
   }
-  / llam:llamada s:$SEMIC{
+  / llam:llamada SEMIC{
     return {
       type: "INSTRUCCION",
       value: llam,
-      semic: s
     }
   }
 
@@ -137,7 +132,7 @@ term
   }
 
 factor
-  = lp:$LEFTPAR exp:expression rp:$RIGHTPAR {
+  = LEFTPAR exp:expression RIGHTPAR {
     return {
       type: "FACTOR",
       value: expression
@@ -161,42 +156,30 @@ condicion
   }
 
 sentencia
-  = IF lp:LEFTPAR cond:condicion rp:RIGHTPAR lb:LEFTBRACE (instruccion)* rb:RIGHTBRACE elseterm:(ELSE LEFTBRACE inst:(instruccion)* RIGHTBRACE)? {
+  = IF LEFTPAR cond:condicion RIGHTPAR LEFTBRACE (instruccion)* RIGHTBRACE elseterm:(ELSE LEFTBRACE inst:(instruccion)* RIGHTBRACE)? {
     return {
       type: "SENTENCIA",
-      leftp: lp,
       condicion: cond,
-      rightp: rp,
-      leftb: lb,
       instruccion: inst,
-      rightb: rb,
       elseterm: elseterm
     }
   }
 
 bucle
-  = WHILE lp:$LEFTPAR cond:condicion rp:$RIGHTPAR lb:$LEFTBRACE inst:instruccion rb:$RIGHTBRACE s:$SEMIC {
+  = WHILE LEFTPAR cond:condicion RIGHTPAR LEFTBRACE inst:instruccion RIGHTBRACE SEMIC {
     return {
       type: "BUCLE",
-      leftp: lp,
       condicion: cond,
-      rightp: rp,
-      leftb: lb,
-      instruccion: inst,
-      rightb: rb,
-      semic: s
+      instruccion: inst
     }
   }
   
 llamada
-  = id:$ID lp:$LEFTPAR params:(parametro)* rp:$RIGHTPAR s:$SEMIC{
+  = id:$ID LEFTPAR params:(parametro)* RIGHTPAR SEMIC{
       return {
         type: "LLAMADA",
         id: id,
-        lp: lp,
         params: params,
-        rp: rp,
-        semic: s
       }
     }
   
