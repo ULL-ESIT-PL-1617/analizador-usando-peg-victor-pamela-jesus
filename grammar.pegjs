@@ -26,7 +26,14 @@ factor
   =
 
 condicion
-  =
+  = left:parametro c:COMPARISONOPERATOR right:parametro {
+    return {
+      type: "CONDICION",
+      left: left,
+      op: c, 
+      right: right
+    }
+  }
 
 sentencia
   =
@@ -82,3 +89,10 @@ SEMIC = _;_
 NUMBER = _ $[0-9]+ _
 ID = _ $([a-z_]i$([a-z0-9_]i*)) _
 ASSIGN = _ '=' _
+COMPARISONOPERATOR = MENOR / MENORQUE / MAYOR / MAYORQUE / IGUAL / DISTINTO
+MENOR = _"<"_ { return '<'; }
+MENORQUE = _"<="_ { return '<='; }
+MAYOR = _">"_ { return '>'; }
+MAYORQUE = _">="_ { return '>='; }
+IGUAL = _"=="_ { return '=='; }
+DISTINTO = _"!="_ { return '!='; }
